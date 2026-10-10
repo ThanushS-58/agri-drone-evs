@@ -1,0 +1,160 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "Authenticated user profile in the AgriShield system.",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "description": "User UID from Firebase Auth" },
+        "email": { "type": "string", "format": "email", "description": "User email address" },
+        "displayName": { "type": "string", "description": "User display name" },
+        "photoURL": { "type": "string", "description": "Profile avatar URL" },
+        "role": { "type": "string", "enum": ["surveyor", "admin", "farmer", "user"], "description": "User system role" },
+        "createdAt": { "type": "string", "description": "Creation ISO date" }
+      },
+      "required": ["uid", "email"]
+    },
+    "Farmer": {
+      "title": "Farmer",
+      "description": "Registered agricultural farmer profile.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Unique farmer ID" },
+        "name": { "type": "string", "description": "Farmer full legal name" },
+        "phone": { "type": "string", "description": "Contact telephone number" },
+        "email": { "type": "string", "description": "Contact email" },
+        "address": { "type": "string", "description": "Address or cadastral survey number" },
+        "village": { "type": "string", "description": "Village name" },
+        "district": { "type": "string", "description": "District jurisdiction" },
+        "state": { "type": "string", "description": "State" },
+        "landOwnership": { "type": "string", "description": "Land ownership deed details" },
+        "policyNumber": { "type": "string", "description": "PMFBY Insurance policy number" },
+        "registeredDate": { "type": "string", "description": "Registration date" },
+        "createdBy": { "type": "string", "description": "UID of registering user" }
+      },
+      "required": ["id", "name", "phone", "village", "district", "policyNumber"]
+    },
+    "AgriculturalField": {
+      "title": "AgriculturalField",
+      "description": "Georeferenced agricultural plot under drone monitoring.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Unique field ID" },
+        "farmerId": { "type": "string", "description": "ID of associated registered farmer" },
+        "name": { "type": "string", "description": "Field or plot title" },
+        "cropType": { "type": "string", "description": "Type of crop planted" },
+        "cropVariety": { "type": "string", "description": "Cultivar or seed variety" },
+        "areaAcres": { "type": "number", "description": "Field area in acres" },
+        "latitude": { "type": "number", "description": "GPS latitude" },
+        "longitude": { "type": "number", "description": "GPS longitude" },
+        "village": { "type": "string", "description": "Village location" },
+        "district": { "type": "string", "description": "District location" },
+        "state": { "type": "string", "description": "State" },
+        "sowingDate": { "type": "string", "description": "Date of sowing" },
+        "expectedHarvestDate": { "type": "string", "description": "Expected harvest date" },
+        "soilType": { "type": "string", "description": "Soil classification" },
+        "policyNumber": { "type": "string", "description": "Insurance policy number" },
+        "currentCropStage": { "type": "string", "description": "Current lifecycle growth phase" },
+        "monitoringStatus": { "type": "string", "description": "Current health and monitoring status" },
+        "createdBy": { "type": "string", "description": "UID of creating user" }
+      },
+      "required": ["id", "farmerId", "name", "cropType", "areaAcres", "latitude", "longitude"]
+    },
+    "DroneImage": {
+      "title": "DroneImage",
+      "description": "Aerial drone ortho-mosaic image capture record.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Unique image ID" },
+        "fieldId": { "type": "string", "description": "Target field ID" },
+        "farmerId": { "type": "string", "description": "Farmer ID" },
+        "captureDate": { "type": "string", "description": "Capture ISO date" },
+        "captureTime": { "type": "string", "description": "Capture timestamp" },
+        "latitude": { "type": "number", "description": "Capture GPS latitude" },
+        "longitude": { "type": "number", "description": "Capture GPS longitude" },
+        "cropStage": { "type": "string", "description": "Lifecycle crop stage" },
+        "imageSource": { "type": "string", "description": "Source: Drone, Upload, Simulation, Webcam" },
+        "resolution": { "type": "string", "description": "Camera resolution" },
+        "imageUrl": { "type": "string", "description": "Image data URL or storage URL" },
+        "damageScenario": { "type": "string", "description": "Damage scenario classification" },
+        "notes": { "type": "string", "description": "Surveyor remarks" },
+        "createdBy": { "type": "string", "description": "UID of uploading user" }
+      },
+      "required": ["id", "fieldId", "captureDate", "imageUrl"]
+    },
+    "InsuranceClaim": {
+      "title": "InsuranceClaim",
+      "description": "Digital PMFBY crop insurance claim with drone and AI evidence.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Unique claim ID" },
+        "farmerId": { "type": "string", "description": "Claimant farmer ID" },
+        "farmerName": { "type": "string", "description": "Claimant farmer name" },
+        "fieldId": { "type": "string", "description": "Target field ID" },
+        "cropType": { "type": "string", "description": "Crop damaged" },
+        "fieldArea": { "type": "number", "description": "Total field area in acres" },
+        "policyNumber": { "type": "string", "description": "Policy number" },
+        "sowingDate": { "type": "string", "description": "Sowing date" },
+        "observationDate": { "type": "string", "description": "Observation date of calamity" },
+        "damageCategory": { "type": "string", "description": "Category of loss (Flooding, Drought, etc.)" },
+        "damageSeverity": { "type": "string", "description": "Severity level (Low, Moderate, High)" },
+        "damagePercentage": { "type": "number", "description": "Assessed loss percentage" },
+        "affectedArea": { "type": "number", "description": "Calculated damaged area in acres" },
+        "supportingImageId": { "type": "string", "description": "ID of supporting drone ortho" },
+        "supportingImageUrl": { "type": "string", "description": "Drone orthophoto image reference" },
+        "analysisId": { "type": "string", "description": "AI analysis reference ID" },
+        "aiAnalysisSummary": { "type": "string", "description": "Automated computer vision summary" },
+        "submissionDate": { "type": "string", "description": "Claim submission date" },
+        "status": { "type": "string", "enum": ["Draft", "Submitted", "Under Review", "Approved", "Rejected", "More Information Required"], "description": "Claim status" },
+        "adminRemarks": { "type": "string", "description": "Official surveyor verification remarks" },
+        "verifiedBy": { "type": "string", "description": "Name and designation of endorsing surveyor" },
+        "verifiedAt": { "type": "string", "description": "Date of verification" },
+        "createdBy": { "type": "string", "description": "UID of submitting user" }
+      },
+      "required": ["id", "farmerId", "fieldId", "policyNumber", "damagePercentage", "affectedArea", "status"]
+    },
+    "ClaimVerification": {
+      "title": "ClaimVerification",
+      "description": "Statutory audit record of claim endorsement or rejection.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Verification audit ID" },
+        "claimId": { "type": "string", "description": "Reference claim ID" },
+        "adminId": { "type": "string", "description": "Official surveyor badge ID" },
+        "adminName": { "type": "string", "description": "Surveyor name" },
+        "decision": { "type": "string", "enum": ["Approved", "Rejected", "More Information Required"], "description": "Decision" },
+        "remarks": { "type": "string", "description": "Surveyor notes" },
+        "verificationDate": { "type": "string", "description": "Date of audit action" },
+        "officialSealId": { "type": "string", "description": "Cryptographic digital seal ID" },
+        "verifiedByUid": { "type": "string", "description": "UID of admin" }
+      },
+      "required": ["id", "claimId", "decision", "remarks", "verificationDate"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": { "$ref": "#/entities/User" },
+      "description": "Stores user profiles with authentication and role metadata."
+    },
+    "/farmers/{farmerId}": {
+      "schema": { "$ref": "#/entities/Farmer" },
+      "description": "Stores government-registered farmer records."
+    },
+    "/fields/{fieldId}": {
+      "schema": { "$ref": "#/entities/AgriculturalField" },
+      "description": "Stores registered agricultural fields with GPS boundaries."
+    },
+    "/images/{imageId}": {
+      "schema": { "$ref": "#/entities/DroneImage" },
+      "description": "Stores captured aerial drone orthomosaics and metadata in real-time."
+    },
+    "/claims/{claimId}": {
+      "schema": { "$ref": "#/entities/InsuranceClaim" },
+      "description": "Stores digital crop insurance damage assessment claims."
+    },
+    "/verifications/{verificationId}": {
+      "schema": { "$ref": "#/entities/ClaimVerification" },
+      "description": "Stores surveyor audit and verification endorsement logs."
+    }
+  }
+}
